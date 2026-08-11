@@ -1,0 +1,2 @@
+import {NextResponse} from 'next/server';import {CreativeInputSchema,generateCreative} from '@/lib/creative';
+export async function POST(request:Request){try{const input=CreativeInputSchema.parse(await request.json());const result=await generateCreative(input);return NextResponse.json(result)}catch(error){const message=error instanceof Error?error.message:'Unable to generate creative';return NextResponse.json({error:message},{status:400})}}

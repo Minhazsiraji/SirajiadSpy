@@ -1,3 +1,4 @@
 export type CreativeType = 'VIDEO' | 'IMAGE' | 'CAROUSEL';
 export type Ad = {id:string;pageName:string;adText:string;headline:string;cta:string;creativeType:CreativeType;thumbnailUrl:string;landingUrl?:string;country:string;daysActive:number;likes?:number;comments?:number;shares?:number;signalScore:number;firstSeenAt:string;sourceUrl?:string;angle:string;hook:string;verified:boolean};
 export type Analysis = {hookType:string;angle:string;persona:string;whyItWorks:string[];weaknesses:string[];improvedCopies:{language:string;hook:string;headline:string;copy:string}[];creativeIdeas:string[];shotList:string[]};
+export type CreativeBrief = {strategy:string;hooks:string[];copies:{name:string;hook:string;headline:string;primaryText:string;cta:string}[];formats:string[];shotList:string[];testPlan:string[];imagePrompt:string};
