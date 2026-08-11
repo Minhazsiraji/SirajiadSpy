@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SirajiadSpy — Bangladesh-focused competitor ad research and creative strategy workspace by AgentSiraji." />
+  <title>SirajiadSpy — Creative Intelligence by AgentSiraji</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-mark">SS</span><span>SirajiadSpy</span><small>BY AGENTSIRAJI</small></a>
+    <nav><a href="#workspace">Workspace</a><a href="#how">How it works</a></nav>
+    <button class="ghost" id="resetBtn">New analysis</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow"><span></span> BUILT BY AGENTSIRAJI · FOR BANGLADESH</div>
+      <h1>Competitor ads into<br><em>creative impact, fast.</em></h1>
+      <p>Turn a product idea and real competitor evidence into sharper hooks, offers and ready-to-shoot creative briefs.</p>
+      <div class="hero-actions"><a class="primary" href="#workspace">Start an analysis <b>→</b></a><button class="text-btn" id="demoBtn">Try the shoe demo</button></div>
+      <div class="proof"><div><b>10</b><span>ads to study</span></div><div><b>15+</b><span>day signal</span></div><div><b>5</b><span>creative angles</span></div></div>
+    </section>
+
+    <section class="workspace" id="workspace">
+      <aside class="steps">
+        <p class="section-label">YOUR WORKSPACE</p>
+        <button class="step active" data-step="1"><span>01</span><div><b>Product brief</b><small>What are you selling?</small></div></button>
+        <button class="step" data-step="2"><span>02</span><div><b>Competitor evidence</b><small>Save what you observe</small></div></button>
+        <button class="step" data-step="3"><span>03</span><div><b>Creative lab</b><small>Turn evidence into ads</small></div></button>
+        <div class="privacy-note"><span>⌁</span><p><b>Local by design</b><br>Your product inputs and image remain in this browser.</p></div>
+      </aside>
+
+      <section class="panel active" id="panel1">
+        <div class="panel-head"><div><span>STEP 01</span><h2>Tell us about the product.</h2><p>A little context makes the research much more useful.</p></div><div class="completion">0% complete</div></div>
+        <div class="form-grid">
+          <div class="fields">
+            <label>Product name<input id="productName" placeholder="e.g. Men's Everyday Sneaker" /></label>
+            <label>Short description<textarea id="description" rows="4" placeholder="Comfortable, lightweight shoes for daily office and casual use..."></textarea></label>
+            <div class="row"><label>Price (BDT)<input id="price" type="number" placeholder="1,499" /></label><label>Delivery charge<input id="delivery" type="number" placeholder="80" /></label></div>
+            <label>Ideal customer<input id="audience" placeholder="e.g. Men 20–35, Dhaka, office commuters" /></label>
+            <label>Why should they choose you?<input id="benefit" placeholder="e.g. All-day comfort + 7-day size exchange" /></label>
+          </div>
+          <label class="upload" id="uploadBox">
+            <input id="imageInput" type="file" accept="image/*" hidden />
+            <img id="preview" alt="Product preview" hidden />
+            <div id="uploadPrompt"><span>↥</span><b>Add product image</b><small>PNG, JPG or WEBP · up to 8 MB</small><i>Choose image</i></div>
+          </label>
+        </div>
+        <div class="panel-foot"><span>Tip: describe the outcome, not only the features.</span><button class="primary" id="toResearch">Build research plan →</button></div>
+      </section>
+
+      <section class="panel" id="panel2">
+        <div class="panel-head"><div><span>STEP 02</span><h2>Collect real competitor evidence.</h2><p>Search Meta, then save the patterns you can actually see.</p></div><div class="completion">Research</div></div>
+        <div class="search-card"><div><small>SEARCH BRIEF</small><h3 id="searchTerms">Add a product first</h3><p>Country: Bangladesh · Ad category: All ads · Status: Active</p></div><a class="primary" id="libraryLink" href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=BD" target="_blank" rel="noopener">Open Meta Ad Library ↗</a></div>
+        <div class="notice"><b>Use longevity as a signal, not proof.</b> Active for 15+ days may indicate an ad is useful to the advertiser, but Meta does not expose commercial profitability.</div>
+        <div class="evidence-head"><div><h3>Saved ads <span id="adCount">0</span>/10</h3><p>Capture the first 3 seconds, angle and audience reaction.</p></div><button class="outline" id="addAd">+ Add observed ad</button></div>
+        <div id="adsList" class="ads-list"><div class="empty"><span>◎</span><b>No ads saved yet</b><p>Open Ad Library and add the strongest active ads you find.</p></div></div>
+        <div class="panel-foot"><span>Quality beats quantity; 3–5 detailed ads are enough to begin.</span><button class="primary" id="toLab">Generate creative strategy →</button></div>
+      </section>
+
+      <section class="panel" id="panel3">
+        <div class="panel-head"><div><span>STEP 03</span><h2>Your creative opportunity map.</h2><p id="strategySubtitle">Evidence-led starting points for your next test.</p></div><button class="outline" id="copyAll">Copy strategy</button></div>
+        <div class="score-row"><div class="score"><span>Research confidence</span><b id="confidence">Starter · 25%</b><i><u id="confidenceBar"></u></i></div><div class="score"><span>Suggested offer</span><b id="offer">COD + size exchange</b><small id="offerWhy">Risk reversal for a first purchase</small></div></div>
+        <div class="strategy-grid">
+          <article class="insight"><small>AUDIENCE TENSION</small><h3 id="pain">“Will it look good and stay comfortable all day?”</h3><p>Lead with the unresolved worry before introducing the product.</p></article>
+          <article class="insight dark"><small>WHITE-SPACE ANGLE</small><h3 id="whitespace">Comfort you can verify before committing.</h3><p id="whitespaceWhy">A differentiated direction based on gaps in saved ads.</p></article>
+        </div>
+        <div class="hooks-head"><div><h3>5 hook tests</h3><p>Different first 3 seconds, same product and offer.</p></div><span>20–35 sec · 4:5 · captions on</span></div>
+        <div id="hooks" class="hooks"></div>
+        <div class="brief"><div><small>READY-TO-SHOOT BRIEF</small><h3 id="briefTitle">UGC: problem → proof → offer</h3></div><ol id="shotList"></ol><button class="primary" id="copyBrief">Copy brief</button></div>
+      </section>
+    </section>
+
+    <section class="how" id="how"><p class="section-label">THE DAY 5 LOOP</p><h2>Observe. Decode. Create.</h2><div><article><span>01</span><h3>Find durable ads</h3><p>Search active Bangladesh ads and shortlist long-running examples.</p></article><article><span>02</span><h3>Record the pattern</h3><p>Capture hooks, formats, angles, offers and meaningful comments.</p></article><article><span>03</span><h3>Build your variation</h3><p>Use the evidence to create original tests—not competitor copies.</p></article></div></section>
+  </main>
+
+  <dialog id="adDialog"><form method="dialog"><div class="dialog-head"><div><small>COMPETITOR EVIDENCE</small><h2>Add an observed ad</h2></div><button value="cancel" aria-label="Close">×</button></div><label>Competitor / Page name<input id="adPage" placeholder="e.g. Urban Step BD" /></label><div class="row"><label>Days active<input id="adDays" type="number" min="1" placeholder="18" /></label><label>Format<select id="adFormat"><option>UGC / selfie</option><option>Unboxing / POV</option><option>Product demo</option><option>Static / meme</option><option>Testimonial</option></select></label></div><label>First 3-second hook<textarea id="adHook" rows="2" placeholder="Exact opening words or visual..."></textarea></label><label>Angle / promise<input id="adAngle" placeholder="e.g. All-day comfort without premium price" /></label><label>Notable comment or objection<input id="adComment" placeholder="e.g. Is size exchange available?" /></label><label>Ad Library URL (optional)<input id="adUrl" type="url" placeholder="https://www.facebook.com/ads/library/..." /></label><menu><button value="cancel" class="ghost">Cancel</button><button value="default" class="primary" id="saveAd">Save evidence</button></menu></form></dialog>
+
+  <div class="toast" id="toast">Copied to clipboard</div>
+  <script src="app.js"></script>
+</body>
+</html>
