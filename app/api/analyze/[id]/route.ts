@@ -1,0 +1,2 @@
+import{NextResponse}from'next/server';import{getDemoAd}from'@/lib/demo-data';import{analyzeAd}from'@/lib/openai';
+export async function POST(_:Request,{params}:{params:Promise<{id:string}>}){const{id}=await params,ad=getDemoAd(id);if(!ad)return NextResponse.json({error:'Ad not found'},{status:404});try{return NextResponse.json({analysis:await analyzeAd(ad),mode:process.env.OPENAI_API_KEY?'openai':'fallback'})}catch(e){return NextResponse.json({error:'Analysis failed',detail:e instanceof Error?e.message:'Unknown error'},{status:500})}}

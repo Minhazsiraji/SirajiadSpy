@@ -1,0 +1,32 @@
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "postgresql" url = env("DATABASE_URL") directUrl = env("DIRECT_URL") }
+
+model Ad {
+  id           String   @id @default(cuid())
+  externalId   String?  @unique
+  pageName     String
+  pageId       String?
+  adText       String?  @db.Text
+  headline     String?
+  cta          String?
+  creativeUrl  String?  @db.Text
+  creativeType String
+  thumbnailUrl String?
+  landingUrl   String?
+  country      String   @default("BD")
+  firstSeenAt  DateTime @default(now())
+  lastSeenAt   DateTime @default(now())
+  daysActive   Int      @default(0)
+  isActive     Boolean  @default(true)
+  likes        Int      @default(0)
+  comments     Int      @default(0)
+  shares       Int      @default(0)
+  signalScore  Int      @default(0)
+  evidence     Json?
+  aiAnalysis   Json?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  @@index([signalScore])
+  @@index([daysActive])
+  @@index([country])
+}

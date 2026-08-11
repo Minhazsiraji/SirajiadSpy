@@ -1,0 +1,2 @@
+import {Logo} from '@/components/Logo';import {Dashboard} from '@/components/Dashboard';import {demoAds} from '@/lib/demo-data';
+export default function SpyPage(){return <><header><Logo/><nav><a href="#library">Ad library</a><a href="#">Creative lab</a></nav><div className="live-pill"><i/>Demo data</div></header><Dashboard initialAds={demoAds}/><footer><Logo/><p>Evidence-led creative research for Bangladesh. Never treat signals as verified competitor profit.</p></footer></>}

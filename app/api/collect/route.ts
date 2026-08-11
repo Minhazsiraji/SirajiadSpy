@@ -1,0 +1,2 @@
+import{NextRequest,NextResponse}from'next/server';import{z}from'zod';import{collectAds}from'@/lib/meta-collector';
+const Body=z.object({query:z.string().trim().min(1).max(100),country:z.string().length(2).default('BD')});export async function POST(req:NextRequest){try{const body=Body.parse(await req.json());return NextResponse.json(await collectAds(body.query,body.country))}catch(e){return NextResponse.json({error:'Invalid collection request',detail:e instanceof Error?e.message:'Unknown error'},{status:400})}}
