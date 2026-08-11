@@ -6,16 +6,23 @@
 .hero-visual{min-height:400px;padding:30px 32px;border-radius:28px}.hero-visual h2{font-size:26px;margin:25px 0 18px}.signal-chart{height:58px;margin-bottom:20px}.signal-card{padding:12px 14px;margin-top:9px;border-radius:13px}.visual-foot{margin-top:17px;padding-top:14px}
 .workspace{width:min(1420px,calc(100% - 32px));margin-top:0}
 
+/* Compact workspace fit */
+.workspace{border-radius:28px;grid-template-columns:230px 1fr}
+.steps{padding:28px 14px}.steps .section-label{margin-bottom:14px}.step{padding:12px 10px}.privacy-note{padding-top:14px}
+.panel{min-height:0;padding:30px 38px}.panel-head{padding-bottom:18px;margin-bottom:22px;align-items:center}.panel h2{font-size:27px}.panel-head p{font-size:14px}
+.form-grid{grid-template-columns:minmax(0,1.4fr) minmax(270px,.6fr);gap:24px}.fields label{margin-bottom:11px}.fields input,.fields textarea{padding:10px 12px}.fields textarea{min-height:76px;max-height:90px}.fields .row{gap:12px}.upload{min-height:275px;height:100%}.upload div{gap:5px}.upload div span{font-size:25px}.upload div i{padding:7px 12px;margin-top:4px}
+.panel-foot{margin-top:20px;padding-top:18px}.panel-foot .primary{padding:11px 20px}.search-card{padding:18px 21px}.notice{margin:13px 0}.evidence-head{margin:20px 0 12px}.empty{padding:25px}
+
 @media(max-width:1050px){
   .topbar{width:calc(100% - 24px)}
   .hero{width:calc(100% - 24px);padding:42px;grid-template-columns:minmax(0,1fr) 340px;gap:36px}
-  .hero h1{font-size:52px}.hero-visual{min-height:390px;padding:28px}.proof div:not(:last-child){padding-right:28px}
+  .hero h1{font-size:52px}.hero-visual{min-height:390px;padding:28px}.proof div:not(:last-child){padding-right:28px}.workspace{grid-template-columns:205px 1fr}.panel{padding:28px}.form-grid{grid-template-columns:1fr}.upload{min-height:230px;height:230px}
 }
 
 @media(max-width:860px){
   .topbar{top:8px;height:64px;border-radius:18px}.topbar nav{display:none}.brand{font-size:18px}.brand-mark{width:36px;height:36px}.topbar>.ghost{font-size:12px;padding:9px 14px}
   .hero{margin-top:22px;padding:38px;grid-template-columns:1fr;gap:32px;border-radius:26px}.hero h1{font-size:clamp(46px,8vw,64px);max-width:680px}.hero-copy>p{max-width:620px}
-  .hero-visual{min-height:360px;max-width:620px;width:100%;padding:28px}.signal-chart{height:52px}.workspace{width:calc(100% - 24px)}
+  .hero-visual{min-height:360px;max-width:620px;width:100%;padding:28px}.signal-chart{height:52px}.workspace{width:calc(100% - 24px);display:block}.steps{padding:10px;flex-direction:row}.steps>.section-label,.privacy-note{display:none}.panel{padding:28px 22px}.form-grid{grid-template-columns:1fr}.upload{min-height:220px;height:220px}
 }
 
 @media(max-width:560px){
