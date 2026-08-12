@@ -1,0 +1,2 @@
+import{NextResponse}from'next/server';import{findTikTokAds}from'@/lib/repository';import{mockTikTokAds}from'@/lib/tiktok-collector';
+export async function GET(req:Request){const q=new URL(req.url).searchParams.get('q')?.trim()||'shoe spray';try{const ads=await findTikTokAds(q);return NextResponse.json({ads:ads.length?ads:mockTikTokAds(q),isMock:!ads.length})}catch{return NextResponse.json({ads:mockTikTokAds(q),isMock:true})}}
