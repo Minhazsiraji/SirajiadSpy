@@ -27,8 +27,8 @@ export async function collectAds(query:string,country='BD'):Promise<CollectionRe
     const system=/^(Library ID:|Started running on|Active|Sponsored|See ad details|See summary details|Platforms|Multiple versions|This ad has multiple versions|EU transparency)/i;
     const content=lines.filter(x=>!system.test(x)&&x!==pageLink?.text&&x.length>2);
     const cta=['Shop Now','Learn More','Send message','Order Now','Sign Up','Get Offer'].find(x=>lines.some(l=>l.toLowerCase()===x.toLowerCase()))||'Learn More';
-    const destination=links.find(a=>a.href&&!/facebook\\.com|instagram\\.com/.test(a.href));
-    return{id,pageName:pageLink?.text||content[0]||'Unknown advertiser',adText:content.slice(1).join('\\n').slice(0,3000)||content.join('\\n').slice(0,3000),headline:(content.find(x=>x.length>=12&&x.length<=180)||pageLink?.text||'Active Meta ad').slice(0,180),cta,creativeType:video?'VIDEO':'IMAGE',creativeUrl:videoSource||media?.url||'',thumbnailUrl:(video&&video.poster)||media?.url||'',landingUrl:destination?.href||'',sourceUrl:'https://www.facebook.com/ads/library/?id='+id,started};
+    const outbound=links.map(a=>{try{const u=new URL(a.href);if(/(^|\\.)l\\.facebook\\.com$/.test(u.hostname)&&u.searchParams.get('u'))return decodeURIComponent(u.searchParams.get('u'));const lynx=card.querySelector('a[data-lynx-uri]')?.getAttribute('data-lynx-uri');if(lynx){const l=new URL(lynx),target=l.searchParams.get('u');if(target)return decodeURIComponent(target)}return a.href}catch{return a.href}});const destination=outbound.find(h=>h&&!/facebook\\.com|instagram\\.com|fb\\.com/.test(h));
+    return{id,pageName:pageLink?.text||content[0]||'Unknown advertiser',adText:content.slice(1).join('\\n').slice(0,3000)||content.join('\\n').slice(0,3000),headline:(content.find(x=>x.length>=12&&x.length<=180)||pageLink?.text||'Active Meta ad').slice(0,180),cta,creativeType:video?'VIDEO':'IMAGE',creativeUrl:videoSource||media?.url||'',thumbnailUrl:(video&&video.poster)||media?.url||'',landingUrl:destination||'',sourceUrl:'https://www.facebook.com/ads/library/?id='+id,started};
    }).filter(Boolean)
   });return{data:ads,type:'application/json'}
  }`;
