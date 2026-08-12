@@ -51,3 +51,45 @@ create table if not exists public."TikTokAd" (
 create index if not exists "TikTokAd_keyword_idx" on public."TikTokAd" (keyword);
 create index if not exists "TikTokAd_profitScore_idx" on public."TikTokAd" ("profitScore");
 alter table public."TikTokAd" enable row level security;
+
+create table if not exists public."Profile" (
+  id uuid primary key references auth.users(id) on delete cascade,
+  email text not null,
+  plan text not null default 'FREE' check (plan in ('FREE','PRO')),
+  role text not null default 'USER' check (role in ('USER','OWNER')),
+  status text not null default 'ACTIVE' check (status in ('ACTIVE','PENDING','SUSPENDED')),
+  "planExpiresAt" timestamptz,
+  "paymentReference" text,
+  "createdAt" timestamptz not null default now(),
+  "updatedAt" timestamptz not null default now()
+);
+create table if not exists public."UsageEvent" (
+  id bigint generated always as identity primary key,
+  "userId" uuid not null references auth.users(id) on delete cascade,
+  action text not null check (action in ('search','ai','export','landing')),
+  "ipHash" text not null,
+  "createdAt" timestamptz not null default now()
+);
+create index if not exists "UsageEvent_user_action_time_idx" on public."UsageEvent" ("userId",action,"createdAt");
+create index if not exists "UsageEvent_ip_time_idx" on public."UsageEvent" ("ipHash","createdAt");
+alter table public."Profile" enable row level security;
+alter table public."UsageEvent" enable row level security;
+drop policy if exists "Users read own profile" on public."Profile";
+create policy "Users read own profile" on public."Profile" for select to authenticated using (auth.uid()=id);
+drop policy if exists "Users read own usage" on public."UsageEvent";
+create policy "Users read own usage" on public."UsageEvent" for select to authenticated using (auth.uid()="userId");
+create or replace function public.handle_new_user() returns trigger language plpgsql security definer set search_path=public as $$ begin insert into public."Profile"(id,email) values(new.id,coalesce(new.email,'')) on conflict(id) do nothing;return new;end;$$;
+drop trigger if exists on_auth_user_created on auth.users;
+create trigger on_auth_user_created after insert on auth.users for each row execute procedure public.handle_new_user();
+create table if not exists public."PaymentRequest" (
+  id bigint generated always as identity primary key,
+  "userId" uuid not null references auth.users(id) on delete cascade,
+  method text not null check (method in ('BKASH','NAGAD')),
+  reference text not null,
+  amount integer not null default 799,
+  status text not null default 'PENDING' check (status in ('PENDING','APPROVED','REJECTED')),
+  "createdAt" timestamptz not null default now(),
+  "reviewedAt" timestamptz
+);
+alter table public."PaymentRequest" enable row level security;
+create policy "Users read own payments" on public."PaymentRequest" for select to authenticated using (auth.uid()="userId");

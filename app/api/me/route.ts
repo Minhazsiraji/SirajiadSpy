@@ -1,0 +1,1 @@
+import{requireUser,accessResponse}from'@/lib/auth-server';export async function GET(request:Request){try{return Response.json({user:await requireUser(request)})}catch(e){return accessResponse(e)||Response.json({error:'Account lookup failed'},{status:500})}}

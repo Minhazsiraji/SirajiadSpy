@@ -8,6 +8,15 @@ Evidence-led Meta and TikTok ad research, landing-page intelligence, Gemini crea
 - **Landing Intel:** Browserless screenshot, Supabase Storage persistence, Shopify/WooCommerce, COD, bKash and Nagad detection.
 - **Bulk export:** selected videos/images, `copy.txt` and `insights.csv` delivered as a ZIP.
 - **BD monetization:** Free (20 searches/day, 5 AI/day) and Pro (unlimited search, 100 AI/day, 50 exports/month) with bKash, Nagad and WhatsApp upgrade flow.
+- **Server-enforced security:** Supabase Auth, owner/admin roles, database-backed usage enforcement, per-user/IP limits, payment approvals and RLS.
+
+## Security setup
+
+1. Run the complete `supabase-schema.sql` in Supabase SQL Editor.
+2. Enable Email authentication in Supabase Auth.
+3. Add `OWNER_EMAIL` and a long random `USAGE_HASH_SALT` in Vercel.
+4. Create the owner account through `/login`; matching owner email receives OWNER/PRO access.
+5. Review payment requests at `/admin`. Premium APIs never trust browser `localStorage`.
 
 ## Product principles
 
