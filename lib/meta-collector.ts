@@ -1,6 +1,6 @@
 import type{Ad}from'./types';import{calculateSignalScore}from'./signal-score';import{deleteIncompleteAds,saveAds}from'./repository';
 export type CollectionResult={ads:Ad[];source:'live';notice:string};
-type RawAd={id:string;pageName:string;adText:string;headline:string;cta:string;creativeType:string;thumbnailUrl:string;landingUrl:string;sourceUrl:string;started:string};
+type RawAd={id:string;pageName:string;adText:string;headline:string;cta:string;creativeType:string;creativeUrl:string;thumbnailUrl:string;landingUrl:string;sourceUrl:string;started:string};
 export async function collectAds(query:string,country='BD'):Promise<CollectionResult>{
  if(process.env.ENABLE_LIVE_META_COLLECTOR!=='true')throw new Error('Live collector is disabled');
  const token=process.env.BROWSERLESS_TOKEN;if(!token)throw new Error('BROWSERLESS_TOKEN is missing');
@@ -9,7 +9,9 @@ export async function collectAds(query:string,country='BD'):Promise<CollectionRe
   await page.setViewport({width:1440,height:1000});
   await page.goto(context.url,{waitUntil:'domcontentloaded',timeout:90000});
   await new Promise(r=>setTimeout(r,12000));
-  for(let i=0;i<5;i++){await page.evaluate(()=>window.scrollBy(0,Math.max(innerHeight,900)));await new Promise(r=>setTimeout(r,1800))}
+  for(let i=0;i<14;i++){await page.mouse.wheel({deltaY:420});await new Promise(r=>setTimeout(r,700))}
+  await page.waitForFunction(()=>[...document.querySelectorAll('video')].some(v=>v.src||v.currentSrc||v.poster),{timeout:12000}).catch(()=>null);
+  await page.evaluate(()=>document.querySelectorAll('video').forEach(v=>{v.preload='metadata';v.load()}));await new Promise(r=>setTimeout(r,3500));
   const ads=await page.evaluate(()=>{
    const idPattern=/Library ID:\\s*(\\d+)/i;
    const markers=[...document.querySelectorAll('div')].filter(el=>idPattern.test(el.innerText||'')&&(el.innerText||'').trim().length<160);
@@ -21,12 +23,12 @@ export async function collectAds(query:string,country='BD'):Promise<CollectionRe
     const links=[...card.querySelectorAll('a')].map(a=>({text:(a.textContent||'').trim(),href:a.href||''}));
     const pageLink=links.find(a=>a.text.length>1&&a.text.length<100&&/facebook\\.com/.test(a.href)&&!/ads\\/library|policies|privacy|help/.test(a.href));
     const media=[...card.querySelectorAll('img')].map(img=>({url:img.currentSrc||img.src||'',area:(img.naturalWidth||img.width)*(img.naturalHeight||img.height)})).filter(x=>x.url&&!/emoji|profile|scontent.*_s/.test(x.url)).sort((a,b)=>b.area-a.area)[0];
-    const video=card.querySelector('video'),started=(text.match(/Started running on\\s+([^\\n]+)/i)||[])[1]||'';
+    const video=card.querySelector('video'),source=video&&video.querySelector('source'),videoSource=(video&&((video.currentSrc||video.src)||(source&&source.src)))||'',started=(text.match(/Started running on\\s+([^\\n]+)/i)||[])[1]||'';
     const system=/^(Library ID:|Started running on|Active|Sponsored|See ad details|See summary details|Platforms|Multiple versions|This ad has multiple versions|EU transparency)/i;
     const content=lines.filter(x=>!system.test(x)&&x!==pageLink?.text&&x.length>2);
     const cta=['Shop Now','Learn More','Send message','Order Now','Sign Up','Get Offer'].find(x=>lines.some(l=>l.toLowerCase()===x.toLowerCase()))||'Learn More';
     const destination=links.find(a=>a.href&&!/facebook\\.com|instagram\\.com/.test(a.href));
-    return{id,pageName:pageLink?.text||content[0]||'Unknown advertiser',adText:content.slice(1).join('\\n').slice(0,3000)||content.join('\\n').slice(0,3000),headline:(content.find(x=>x.length>=12&&x.length<=180)||pageLink?.text||'Active Meta ad').slice(0,180),cta,creativeType:video?'VIDEO':'IMAGE',thumbnailUrl:(video&&video.poster)||media?.url||'',landingUrl:destination?.href||'',sourceUrl:'https://www.facebook.com/ads/library/?id='+id,started};
+    return{id,pageName:pageLink?.text||content[0]||'Unknown advertiser',adText:content.slice(1).join('\\n').slice(0,3000)||content.join('\\n').slice(0,3000),headline:(content.find(x=>x.length>=12&&x.length<=180)||pageLink?.text||'Active Meta ad').slice(0,180),cta,creativeType:video?'VIDEO':'IMAGE',creativeUrl:videoSource||media?.url||'',thumbnailUrl:(video&&video.poster)||media?.url||'',landingUrl:destination?.href||'',sourceUrl:'https://www.facebook.com/ads/library/?id='+id,started};
    }).filter(Boolean)
   });return{data:ads,type:'application/json'}
  }`;
