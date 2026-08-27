@@ -1,5 +1,5 @@
 export type CreativeType='VIDEO'|'IMAGE'|'CAROUSEL';
-export type LandingAnalysis={screenshotUrl:string;isShopify:boolean;platform:string;pageSpeed:number;hasCOD:boolean;hasBkash:boolean;hasNagad:boolean;analyzedAt:string};
+export type LandingAnalysis={screenshotUrl?:string;screenshotStatus?:'CAPTURED'|'UNAVAILABLE';isShopify:boolean;platform:string;pageSpeed:number;hasCOD:boolean;hasBkash:boolean;hasNagad:boolean;analyzedAt:string};
 export type Ad={id:string;pageName:string;adText:string;headline:string;cta:string;creativeType:CreativeType;thumbnailUrl:string;creativeUrl?:string;landingUrl?:string;landingAnalysis?:LandingAnalysis;country:string;daysActive:number;likes?:number;comments?:number;shares?:number;signalScore:number;firstSeenAt:string;sourceUrl?:string;angle:string;hook:string;verified:boolean};
 export type TikTokAd={id:string;keyword:string;username:string;caption:string;videoUrl:string;thumbnailUrl?:string;likes:number;views:number;duration:number;musicName?:string;videoId?:string;country:string;profitScore:number;firstSeen:string;isMock?:boolean};
 export type Analysis={hookType:string;angle:string;persona:string;hooks:string[];whyItWorks:string[];weaknesses:string[];improvedCopies:{language:string;hook:string;headline:string;copy:string}[];creativeIdeas:string[];shotList:string[]};
